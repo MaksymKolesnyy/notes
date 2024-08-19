@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Application</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="modal-container">
+        <div class="modal">
+            <button class="modal-btn">&times;</button>
+            <h2 class="modal-title">TITLE HERE</h2>
+            <p class="modal-body">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum, \
+                aliquam perferendis illum quod perspiciatis fuga impedit nostrum quasi repudiandae provident! Quasi
+                consequatur laudantium enim repellendus iste quae alias corrupti illum.</p>
+        </div>
+    </div>
+
+    <div class="form-container">
+        <h1>Note App</h1>
+        <h3>Add a Note</h3>
+        <!--  <div class="message alert-message">Hi! I'm a message</div> -->
+        <form>
+            <label class="title-label" for="title">Title
+                <input type="text" id="title" placeholder="Enter a note title.">
+            </label>
+            <label class="note-label" for="note">Note
+                <textarea name="note" id="note" cols="30" rows="10" placeholder="Enter note text."></textarea>
+            </label>
+            <input type="submit" value="Add Note">
+        </form>
+    </div>
+
+    <div class="note-container">
+        <div class="note">
+            <h2 class="note-title">Sample note title</h2>
+            <p class="note-body">Himenaeos placerat sollicitudin, tellus quisque platea pretium...</p>
+            <div class="note-btns">
+                <button class="note-btn note-view">View</button>
+                <button class="note-btn note-delete">Delete</button>
+            </div>
+
+
+        </div>
+    </div>
+</body>
+
+</html>
