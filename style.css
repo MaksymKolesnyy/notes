@@ -219,6 +219,7 @@ input::placeholder {
     display: flex;
     justify-content: center;
     margin: 60rem auto 1rem;
+    gap: 10px;
 }
 
 .note {
@@ -226,6 +227,8 @@ input::placeholder {
     border-radius: 20px;
     background-color: var(--gray);
     padding: 10px 30px 30px;
+
+
 }
 
 .note-title {
