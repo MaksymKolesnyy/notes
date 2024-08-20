@@ -15,8 +15,33 @@ class Note {
 //// LOCAL STORAGE ////
 
 // Function: Retrieve notes from Local storage
+function getNotes() {
+    let notes;
+    if (localStorage.getItem('noteApp.notes') === null) {
+        notes = [];
+    } else {
+        notes = JSON.parse(localStorage.getItem('noteApp.notes'));
+    }
+    return notes;
+}
 
 // Function: Add a note to local storage
+function addNoteToLocalStorage(note) {
+    const notes = getNotes();
+    notes.push(note);
+    localStorage.setItem('noteApp.notes', JSON.stringify(notes));
+}
+
+// Function: Remove a note from local storage
+function removeNote(id) {
+    const notes = getNotes();
+    notes.forEach((note, index) => { // Corretto l'uso di forEach
+        if (note.id === id) {
+            notes.splice(index, 1);
+        }
+    });
+    localStorage.setItem('noteApp.notes', JSON.stringify(notes)); // Corretto il posizionamento dell'aggiornamento di localStorage
+}
 
 //// UI UPDATES ////
 
@@ -36,8 +61,25 @@ function addNoteToList(note) {
     noteContainer.appendChild(newUINote);
 }
 
+// Function: Show notes in UI
+function displayNotes() {
+    const notes = getNotes();
+    notes.forEach(note => {
+        addNoteToList(note);
+    });
+}
+
+// Function: Show alert message
+function showAlertMessage(message, alertClass) {
+    const alertDiv = document.createElement('div');
+    alertDiv.className = `message ${alertClass}`;
+    alertDiv.appendChild(document.createTextNode(message));
+    form.insertAdjacentElement('beforebegin', alertDiv);
+    setTimeout(() => alertDiv.remove(), 4000);
+}
+
 // Function: View note in Modal
-function activeNoteModal(title, body) {  // Modifica: Aggiunta di 'function'
+function activeNoteModal(title, body) {
     const modalTitle = document.querySelector('.modal-title');
     const modalBody = document.querySelector('.modal-body');
     modalTitle.textContent = title;
@@ -58,7 +100,17 @@ noteContainer.addEventListener('click', (e) => {
         const currentBody = currentNote.querySelector('.note-body').textContent;
         activeNoteModal(currentTitle, currentBody);
     }
+    if (e.target.classList.contains('note-delete')) {
+        const currentNote = e.target.closest('.note');
+        const noteId = parseFloat(currentNote.querySelector('span').textContent);
+        currentNote.remove();
+        removeNote(noteId); // Usa la funzione corretta
+        showAlertMessage('Your note was permanently deleted.', 'remove-message');
+    }
 });
+
+// Event: Display Notes
+document.addEventListener('DOMContentLoaded', displayNotes); // Correzione dell'evento DOMContentLoaded
 
 // Event: Note Form Submit
 form.addEventListener('submit', (e) => {
@@ -70,8 +122,12 @@ form.addEventListener('submit', (e) => {
     if (titleInput.value.length > 0 && noteInput.value.length > 0) {
         const newNote = new Note(titleInput.value, noteInput.value);
         addNoteToList(newNote);
+        addNoteToLocalStorage(newNote);
         titleInput.value = '';
         noteInput.value = '';
+        showAlertMessage('Note successfully added!', 'success-message');
         titleInput.focus();
+    } else {
+        showAlertMessage('Please add both a title and a note.', 'alert-message');
     }
 });
